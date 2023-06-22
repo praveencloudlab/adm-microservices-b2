@@ -1,1 +1,8 @@
+city: London
+application:
+  name: Abc Store
+  url: http://www.xyz.com/test
+  config: busers/user_name/test.txt
+  
+
 
