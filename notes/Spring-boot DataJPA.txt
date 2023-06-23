@@ -1,0 +1,48 @@
+Spring-boot DataJPA
+=====================
+
+Repository is marker interface
+PagingAndSortingRepository extends Repository
+ListPagingAndSortingRepository extends PagingAndSortingRepository
+CrudRepository extends Repository
+
+ListCrudRepository extends CrudRepository
+JpaRepository extends ListCrudRepository,ListPagingAndSortingRepository,QueryByExampleExecutor
+
+
+Datasource config
+======================
+1.Hikari CP :: com.zaxxer.hikari.HikariDataSource
+2.Tomcat :: org.apache.tomcat.jdbc.pool.DataSource
+3.DBCP2 :: org.apache.commons.dbcp2.BasicDataSource
+4.OracleUcp :: oracle.ucp.jdbc.PoolDataSourceImpl
+5.Generic datasource :: Generic
+
+
+changing default datasource to sometghing else
+===================================================
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>com.zaxxer</groupId>
+					<artifactId>HikariCP</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-jdbc</artifactId>
+		</dependency>
+
+
+
+
+
+
+
+
+
