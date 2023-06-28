@@ -1,0 +1,77 @@
+Transactions in Spring boot datajpa
+========================================
+
+@Transactional annotation
+-------------------------------
+propagation.REQUIRED
+propagation.REQUIRES_NEW
+propagation.NESTED
+propagation.SUPPORTS
+propagation.MANDATORY
+propagation.NEVER
+Propagation.NOT_SUPPORTED
+
+REQUIRED: This is the default propagation level. If there already exists a transaction, then it will join the existing transaction, otherwise , it will start new transaction
+ex: Updating product quantity in the inventory once an order is placed. 
+@Transactional(propagation = Propagation.REQUIRED)
+public void updateProductQuantity(Order order){
+		for(OrderItem item:order.getOrderItems()) {	
+			Product product = prodRepo.findById(item.getProduct().getProductId()).orElse(null);
+			product.getStock().setStock(product.getStock().getStock() - item.getQuantity());
+			productRepository.save(product);	
+		}
+	}
+
+
+REQUIRES_NEW: If there are already exists a transaction, the current transaction is paused, and it starts a new transaction
+ex: In cause of order failure =, we might want to log this into a separate transaction, so it gets recordered even if the main order transaction fails and rolls back
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void logOrderFailure(Order order,String failureReason){
+	OrderFailureLog log=new OrderFailureLog(order.getId(),failureReason);
+	orderFailureLogRepository.save(log);
+}
+
+SUPPORTS: It supports current transaction, but if there is no transaction, it will execute in non-transactional mode
+ex: A method that retrieves product information and does not need to be part of any transaction unless already exists.
+@Transactional(propagation = Propagation.SUPPORTS)
+public Product getProduct(Long id){
+	return productRepository.findById(id).orElse(null);
+}
+
+NOT_SUPPORTED: It wlways executes in non-transactional mode, if a transaction exists, it is paused.
+ex: An action that doesnot modify any database values, like getting the curret system time. 
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
+public LocalDateTime getCurrentTime(){
+	return LocalDataTime.now();
+}
+
+MANDATORY: It supports current transaction, but if there is no transaction, it will throws exception
+Ex: Applying a coupoun code to an order should be mandatory in a transaction, we we wouldn't want it to proceed if no transaction exists.
+@Transactional(propagation = Propagation.MANDATORY)
+public void applyCoupounToOrder(Order order,Coupoun coupoun){
+	order.setDiscount(coupoun.getValue());
+	orderRepository.save(order);
+}
+
+
+
+NEVER: It executes in non-transactional mode, if a transaction exists, it throws an exception
+Ex: A method that generates report and should never be run with in a transaction
+@Transactional(propagation = Propagation.NEVER)
+public Order generateReport(Long orderId){
+	// implementatiin
+}
+
+NESTED: It starts a nested transaction if a transaction exists, otherwise, it starts a new one
+Ex: When creating a new orde, you may want to start a nested transaction for each item in the order.
+@Transactional(propagation = Propagation.NESTED)
+public void createOrderItem(Order order,OrderItem item){
+	item.setOrder(order);
+	orderItemRepository.save(item);
+}
+
+
+
+
+
+
