@@ -5,11 +5,11 @@ Transactions in Spring boot datajpa
 -------------------------------
 propagation.REQUIRED
 propagation.REQUIRES_NEW
-propagation.NESTED
 propagation.SUPPORTS
-propagation.MANDATORY
-propagation.NEVER
 Propagation.NOT_SUPPORTED
+propagation.MANDATORY
+propagation.NESTED
+propagation.NEVER
 
 REQUIRED: This is the default propagation level. If there already exists a transaction, then it will join the existing transaction, otherwise , it will start new transaction
 ex: Updating product quantity in the inventory once an order is placed. 
@@ -54,6 +54,14 @@ public void applyCoupounToOrder(Order order,Coupoun coupoun){
 }
 
 
+NESTED: It starts a nested transaction if a transaction exists, otherwise, it starts a new one
+Ex: When creating a new orde, you may want to start a nested transaction for each item in the order.
+@Transactional(propagation = Propagation.NESTED)
+public void createOrderItem(Order order,OrderItem item){
+	item.setOrder(order);
+	orderItemRepository.save(item);
+}
+
 
 NEVER: It executes in non-transactional mode, if a transaction exists, it throws an exception
 Ex: A method that generates report and should never be run with in a transaction
@@ -62,13 +70,6 @@ public Order generateReport(Long orderId){
 	// implementatiin
 }
 
-NESTED: It starts a nested transaction if a transaction exists, otherwise, it starts a new one
-Ex: When creating a new orde, you may want to start a nested transaction for each item in the order.
-@Transactional(propagation = Propagation.NESTED)
-public void createOrderItem(Order order,OrderItem item){
-	item.setOrder(order);
-	orderItemRepository.save(item);
-}
 
 
 
