@@ -15,7 +15,6 @@ import com.cts.ecart.repository.ProductRepository;
 @Controller
 public class ProductControllerImpl {
 	
-	
 	@Autowired
 	private ProductRepository produRepository;
 	
