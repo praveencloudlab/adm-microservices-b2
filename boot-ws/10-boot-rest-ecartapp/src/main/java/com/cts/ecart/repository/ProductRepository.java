@@ -9,6 +9,7 @@ import com.cts.ecart.entity.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	
+	
 	// filter by product title
 	List<Product> findByProductTitleLike(String productName);
 	//filter products by low price

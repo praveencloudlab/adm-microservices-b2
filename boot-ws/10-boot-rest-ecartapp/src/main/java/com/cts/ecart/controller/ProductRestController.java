@@ -3,6 +3,7 @@ package com.cts.ecart.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.cts.ecart.entity.Brand;
 import com.cts.ecart.entity.Category;
 import com.cts.ecart.entity.Product;
@@ -20,6 +20,7 @@ import com.cts.ecart.service.ProductServiceImpl;
 
 @RestController
 @RequestMapping("api/products")
+@CrossOrigin
 public class ProductRestController {
 	@Autowired
 	private ProductServiceImpl productService;
@@ -98,7 +99,21 @@ public class ProductRestController {
 		// save/edit product
 		@PostMapping
 		public Product save(@RequestBody Product product) {
-			return productService.save(product);
+			System.out.println(">>>>>>>> <<<<<<<<<<<<");
+			System.out.println(product);
+			System.out.println(">>>>>>>> <<<<<<<<<<<<");
+			
+			Product prod = productService.save(product);
+			
+			Brand b= productService.findBrandById(81);
+			b.getProdsBrands().add(prod);
+			Category cat=productService.findCategoryById(94);
+			cat.getBrands().add(b);
+			cat.getCatProds().add(prod);
+			// note: category saves brand -> brand saves product
+			productService.saveCategory(cat);
+			//return productService.save(product);
+			return prod;
 		}
 		
 		// save List of products

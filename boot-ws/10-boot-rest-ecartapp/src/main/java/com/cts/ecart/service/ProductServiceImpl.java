@@ -30,6 +30,10 @@ public class ProductServiceImpl {
 	public List<Product> listAllProducts() {
 		return productRepository.findAll();
 	}
+	
+	public List<Product> findAllProductsById(Iterable<Integer> ids){
+		return productRepository.findAllById(ids);
+	}
 
 	// find product by ID
 	public Product findById(int productId) {
@@ -52,9 +56,18 @@ public class ProductServiceImpl {
 		return brandRepository.findAll();
 	}
 	
+	// find brand by ID
+	public Brand findBrandById(int brandId) {
+		return brandRepository.findById(brandId).orElse(null);
+	}
+	
 	// list all categories
 	public List<Category> listAllcategories(){
 		return categoryRepository.findAll();
+	}
+	// find category by category ID
+	public Category findCategoryById(int categoryId) {
+		return categoryRepository.findById(categoryId).orElse(null);
 	}
 
 	// filter by product title
