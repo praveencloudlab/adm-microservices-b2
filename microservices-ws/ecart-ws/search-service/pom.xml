@@ -8,10 +8,10 @@
 		<version>3.1.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com</groupId>
-	<artifactId>10-boot-rest-ecartapp</artifactId>
-	<version>1.0</version>
-	<name>10-boot-rest-ecartapp</name>
+	<groupId>com.cts</groupId>
+	<artifactId>search-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>search-service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
@@ -20,6 +20,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -46,11 +50,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>ecart-app</finalName>
-		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

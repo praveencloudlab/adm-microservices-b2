@@ -39,7 +39,7 @@ public class OrderRestController {
 	    	OrderItem orderItem=new OrderItem();
 	    	orderItem.setProduct(product);
 	    	orderItem.setPrice(product.getPrice().getPrice());
-	    	orderItem.setQuantity(2);
+	    	orderItem.setQuantity(1);
 	    	orderItem.setOrder(order);
 			totalAmount=totalAmount+(product.getPrice().getPrice());
 	    	order.getOrderItems().add(orderItem);
@@ -49,9 +49,9 @@ public class OrderRestController {
 		
 		
 		// get orderservice object
-		orderService.checkout(order);
+		Order checkout = orderService.checkout(order);
 	   
-		return order;
+		return checkout;
 	}
 	
 	

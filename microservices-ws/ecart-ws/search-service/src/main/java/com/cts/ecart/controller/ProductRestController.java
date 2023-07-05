@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cts.ecart.entity.Brand;
 import com.cts.ecart.entity.Category;
 import com.cts.ecart.entity.Product;
-import com.cts.ecart.service.CartServiceImpl;
-import com.cts.ecart.service.OrderServiceImpl;
 import com.cts.ecart.service.ProductServiceImpl;
 
 @RestController
@@ -24,11 +22,7 @@ import com.cts.ecart.service.ProductServiceImpl;
 public class ProductRestController {
 	@Autowired
 	private ProductServiceImpl productService;
-	@Autowired
-	private OrderServiceImpl orderService;
-	@Autowired
-	private CartServiceImpl cartCartService;
-	
+
 	//Read only operations
 		// list all products
 		@GetMapping
