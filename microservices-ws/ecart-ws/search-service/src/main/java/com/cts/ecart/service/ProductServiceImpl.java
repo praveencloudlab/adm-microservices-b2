@@ -9,6 +9,7 @@ import com.cts.ecart.entity.Brand;
 import com.cts.ecart.entity.Category;
 import com.cts.ecart.entity.Price;
 import com.cts.ecart.entity.Product;
+import com.cts.ecart.entity.Stock;
 import com.cts.ecart.repository.BrandRepository;
 import com.cts.ecart.repository.CategoryRepository;
 import com.cts.ecart.repository.ProductRepository;
@@ -126,6 +127,22 @@ public class ProductServiceImpl {
 	public void deleteByBrandId(int brandId) {
 		brandRepository.deleteById(brandId);
 	}
+	
+	//update inventory information 
+		
+		public Product updateInventory(int productId,int quantity) {
+			Product product = productRepository.findById(productId).orElse(null);
+			if(product!=null) {
+				
+				Stock stock = product.getStock();
+				stock.setStock(stock.getStock()-quantity);
+				product.setStock(stock);
+				productRepository.save(product);
+				return product;
+				
+			}
+			return null;
+		}
 	
 	
 	
